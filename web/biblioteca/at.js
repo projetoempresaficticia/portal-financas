@@ -144,8 +144,53 @@ function montarLateral(alvo) {
           ${esc(p.nome)}
         </a>`).join('')}
     </nav>
-    <a class="at-empurra" href="biblioteca.html">
-      <img class="at-icone" src="web/icones/branco/definicoes.svg" alt="" />
-      Biblioteca
-    </a>`;
+`;
+}
+
+// Arranque das páginas internas. Sem sessão volta-se à entrada, em vez de
+// mostrar um esqueleto vazio a quem não entrou.
+async function arrancarPagina(aoCarregar) {
+  const { data } = await sb.auth.getSession();
+  if (!data.session) {
+    window.location.replace('index.html');
+    return null;
+  }
+  montarLateral(document.getElementById('lateral'));
+
+  const btnSair = document.getElementById('btn-sair');
+  if (btnSair) {
+    btnSair.addEventListener('click', async () => {
+      await sb.auth.signOut();
+      window.location.replace('index.html');
+    });
+  }
+
+  const ctx = await minhaEmpresa();
+  const nome = document.getElementById('nome-empresa');
+  const ced = document.getElementById('cedula-empresa');
+
+  if (!ctx) {
+    if (nome) nome.textContent = 'Sem empresa';
+    const sem = document.getElementById('area-sem-empresa');
+    if (sem) sem.hidden = false;
+    return null;
+  }
+  if (nome) nome.textContent = ctx.empresa.nome;
+  if (ced) ced.textContent = ctx.empresa.cedula;
+
+  const conteudo = document.getElementById('area-conteudo');
+  if (conteudo) conteudo.hidden = false;
+  await aoCarregar(ctx);
+  return ctx;
+}
+
+// O seletor de mês, igual nas três páginas que o usam.
+function ligarSeletorMes(id, aoMudar) {
+  const campo = document.getElementById(id);
+  if (!campo) return null;
+  campo.value = competenciaAtual();
+  campo.addEventListener('change', () => {
+    if (campo.value) aoMudar(campo.value);
+  });
+  return campo;
 }

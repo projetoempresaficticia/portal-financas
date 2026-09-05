@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="at-versao" content="e622e4f794ac" />
+  <title>Pagamentos — Portal das Finanças</title>
+  <link rel="icon" href="favicon-32.png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" />
+  <link rel="stylesheet" href="web/biblioteca/at.css?v=c681c13d" />
+</head>
+<body>
+  <div class="at-app">
+    <aside class="at-lateral" id="lateral"></aside>
+    <div class="at-principal">
+      <header class="at-topo">
+        <div>
+          <p class="at-sobretitulo">Pagamentos</p>
+          <strong id="nome-empresa" style="font-size:15px">—</strong>
+        </div>
+        <div class="at-fila">
+          <span class="at-suave mono" id="cedula-empresa" style="font-size:13px"></span>
+          <button type="button" class="at-botao at-botao-linha" id="btn-sair">Sair</button>
+        </div>
+      </header>
+
+      <main class="at-conteudo">
+        <div id="area-sem-empresa" class="at-cartao" hidden style="max-width:560px">
+          <h2 style="margin-top:0">Só empresas declaram</h2>
+          <p class="at-suave">
+            A sua cédula não está vinculada a nenhuma empresa. Um imposto é
+            sempre de alguém — e aqui esse alguém é uma empresa.
+          </p>
+        </div>
+
+        <div id="area-conteudo" hidden>
+          <h1 style="margin:0 0 4px">Pagamentos</h1>
+          <p class="at-suave" style="margin:0 0 var(--at-e5)">
+            O que deve à Autoridade Tributária. O pagamento faz-se no Prepacoin,
+            com a entidade e a referência de cada boleto.
+          </p>
+
+          <section class="at-cartao">
+            <div class="at-cartao-cabeca">
+              <h2 style="margin:0">Por pagar</h2>
+              <a class="at-botao at-botao-linha"
+                 href="https://projetoempresaficticia.github.io/prepacoin/boletos.html"
+                 target="_blank" rel="noopener">Abrir o Prepacoin</a>
+            </div>
+            <div id="lista-por-pagar"></div>
+          </section>
+
+          <section class="at-cartao" style="margin-top:var(--at-e5)">
+            <h2 style="margin-top:0">Já pagos</h2>
+            <div id="lista-pagos"></div>
+          </section>
+        </div>
+
+        <p class="at-msg" id="msg-geral"></p>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://projetoempresaficticia.github.io/pp-base/web/comum.js"></script>
+  <script src="web/biblioteca/at.js?v=c04e9838"></script>
+  <script src="web/atualizar.js?v=44ebef86"></script>
+  <script src="pagamentos.js?v=b88c1b4e"></script>
+</body>
+</html>

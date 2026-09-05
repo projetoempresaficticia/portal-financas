@@ -517,7 +517,7 @@ p { margin: 0; }
   max-width: 440px;
   margin-left: min(6vw, 88px);
   background: var(--at-superficie);
-  border-radius: var(--at-r-cartao, 14px);
+  border-radius: var(--at-r-painel);
   border-top: 3px solid var(--at-roxo);
   box-shadow: 0 18px 44px rgba(41, 35, 49, .18);
   padding: clamp(24px, 4vh, 40px);

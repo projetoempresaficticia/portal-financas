@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="at-versao" content="e622e4f794ac" />
+  <title>Declarações — Portal das Finanças</title>
+  <link rel="icon" href="favicon-32.png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" />
+  <link rel="stylesheet" href="web/biblioteca/at.css?v=c681c13d" />
+</head>
+<body>
+  <div class="at-app">
+    <aside class="at-lateral" id="lateral"></aside>
+    <div class="at-principal">
+      <header class="at-topo">
+        <div>
+          <p class="at-sobretitulo">Declarações</p>
+          <strong id="nome-empresa" style="font-size:15px">—</strong>
+        </div>
+        <div class="at-fila">
+          <span class="at-suave mono" id="cedula-empresa" style="font-size:13px"></span>
+          <button type="button" class="at-botao at-botao-linha" id="btn-sair">Sair</button>
+        </div>
+      </header>
+
+      <main class="at-conteudo">
+        <div id="area-sem-empresa" class="at-cartao" hidden style="max-width:560px">
+          <h2 style="margin-top:0">Só empresas declaram</h2>
+          <p class="at-suave">
+            A sua cédula não está vinculada a nenhuma empresa. Um imposto é
+            sempre de alguém — e aqui esse alguém é uma empresa.
+          </p>
+        </div>
+
+        <div id="area-conteudo" hidden>
+          <div class="at-cartao-cabeca" style="border:0;padding:0;margin-bottom:var(--at-e5)">
+            <div>
+              <h1 style="margin:0">Declarações</h1>
+              <p class="at-suave" style="margin:4px 0 0">
+                Guia de IVA do período e Modelo 22 do exercício.
+              </p>
+            </div>
+            <div class="at-campo" style="margin:0">
+              <label for="mes">Período</label>
+              <input id="mes" type="month" />
+            </div>
+          </div>
+
+          <section class="at-cartao">
+            <div class="at-cartao-cabeca">
+              <h2 style="margin:0">Guia de IVA</h2>
+              <span id="iva-selo"></span>
+            </div>
+            <p class="at-suave" id="iva-nota"></p>
+            <div class="at-grade" id="iva-numeros"></div>
+
+            <form id="form-iva" style="margin-top:var(--at-e5)">
+              <div class="at-grade-painel">
+                <div class="at-campo">
+                  <label for="iva-base">Base tributável (P$)</label>
+                  <input id="iva-base" type="text" inputmode="decimal" required />
+                </div>
+                <div class="at-campo">
+                  <label for="iva-valor">IVA apurado (P$)</label>
+                  <input id="iva-valor" type="text" inputmode="decimal" required />
+                </div>
+              </div>
+              <p class="at-ajuda">
+                Vêm preenchidos a partir do e-Fatura. Se os alterar, a AT compara
+                com as faturas que vê e recusa a entrega.
+              </p>
+              <button type="submit" class="at-botao" id="btn-iva">Entregar a Guia de IVA</button>
+              <p class="at-msg" id="msg-iva"></p>
+            </form>
+          </section>
+
+          <section class="at-cartao" style="margin-top:var(--at-e5)">
+            <h2 style="margin-top:0">Modelo 22 — IRC anual</h2>
+            <p class="at-suave">
+              Exige uma declaração fiscal assinada pelo gerente e pelo contabilista
+              certificado, feita no Subsight.
+            </p>
+            <form id="form-m22">
+              <div class="at-grade-painel">
+                <div class="at-campo">
+                  <label for="m22-exercicio">Exercício</label>
+                  <input id="m22-exercicio" type="text" inputmode="numeric"
+                         maxlength="4" placeholder="2025" required />
+                </div>
+                <div class="at-campo">
+                  <label for="m22-lucro">Lucro tributável (P$)</label>
+                  <input id="m22-lucro" type="text" inputmode="decimal" required />
+                </div>
+              </div>
+              <div class="at-campo">
+                <label for="m22-doc">Declaração assinada</label>
+                <select id="m22-doc" required></select>
+              </div>
+              <button type="submit" class="at-botao" id="btn-m22">Entregar o Modelo 22</button>
+              <p class="at-msg" id="msg-m22"></p>
+            </form>
+          </section>
+
+          <section class="at-cartao" style="margin-top:var(--at-e5)">
+            <h2 style="margin-top:0">Histórico</h2>
+            <div id="lista-historico"></div>
+          </section>
+        </div>
+
+        <p class="at-msg" id="msg-geral"></p>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://projetoempresaficticia.github.io/pp-base/web/comum.js"></script>
+  <script src="web/biblioteca/at.js?v=c04e9838"></script>
+  <script src="web/atualizar.js?v=44ebef86"></script>
+  <script src="declaracoes.js?v=ac153586"></script>
+</body>
+</html>

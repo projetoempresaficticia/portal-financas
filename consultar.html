@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="at-versao" content="e622e4f794ac" />
+  <title>Consultar protocolo — Portal das Finanças</title>
+  <link rel="icon" href="favicon-32.png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" />
+  <link rel="stylesheet" href="web/biblioteca/at.css?v=c681c13d" />
+</head>
+<body>
+  <div class="at-app">
+    <!-- a barra só se monta a quem tem sessão; esta página é pública -->
+    <aside class="at-lateral" id="lateral" hidden></aside>
+
+    <div class="at-principal">
+      <header class="at-topo">
+        <div>
+          <p class="at-sobretitulo">Consultar</p>
+          <strong id="nome-empresa" style="font-size:15px">Verificação pública</strong>
+        </div>
+        <div class="at-fila">
+          <span class="at-suave mono" id="cedula-empresa" style="font-size:13px"></span>
+          <button type="button" class="at-botao at-botao-linha" id="btn-sair" hidden>Sair</button>
+          <a class="at-botao at-botao-linha" id="link-entrar" href="index.html">Entrar</a>
+        </div>
+      </header>
+
+      <main class="at-conteudo" style="max-width:760px">
+        <h1 style="margin:0 0 4px">Consultar um protocolo</h1>
+        <p class="at-suave" style="margin:0 0 var(--at-e5)">
+          Qualquer pessoa pode confirmar aqui se uma entrega ao Estado existe
+          mesmo, sem precisar de conta. Basta o número do protocolo.
+        </p>
+
+        <section class="at-cartao">
+          <form id="form-consultar">
+            <div class="at-campo">
+              <label for="protocolo">Número do protocolo</label>
+              <input id="protocolo" class="mono" type="text" required
+                     placeholder="AT-2026-000001" autocomplete="off" />
+            </div>
+            <button type="submit" class="at-botao" id="btn-consultar">Consultar</button>
+            <p class="at-msg" id="msg-consulta"></p>
+          </form>
+        </section>
+
+        <section class="at-cartao" id="resultado" hidden style="margin-top:var(--at-e5)">
+          <div class="at-cartao-cabeca">
+            <h2 style="margin:0" id="r-documento">—</h2>
+            <span id="r-selo"></span>
+          </div>
+          <div class="at-grade-painel" id="r-campos"></div>
+          <p class="at-ajuda" id="r-nota" style="margin-top:var(--at-e4)"></p>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://projetoempresaficticia.github.io/pp-base/web/comum.js"></script>
+  <script src="web/biblioteca/at.js?v=c04e9838"></script>
+  <script src="web/atualizar.js?v=44ebef86"></script>
+  <script src="consultar.js?v=bd3a2c61"></script>
+</body>
+</html>
