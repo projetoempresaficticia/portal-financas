@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paleta do Portal das Finanças — Portal das Finanças AT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" />
+  <link rel="stylesheet" href="web/biblioteca/at.css?v=CSS" />
+  <style>
+    /* Só o que é próprio desta página. Cores, tipografia, forma e ritmo
+       vivem em web/biblioteca/at.css. */
+
+    .env { max-width: 1080px; margin: 0 auto; padding: clamp(28px, 5vw, 64px) clamp(18px, 4vw, 40px) 80px; }
+
+    .selo {
+      display: inline-block; font-size: 11px; font-weight: 600;
+      letter-spacing: .13em; text-transform: uppercase;
+      color: var(--at-roxo); margin-bottom: 14px;
+    }
+    .abre { max-width: 60ch; color: var(--at-texto-suave); margin-top: 16px; font-size: 16px; }
+    .abre strong { color: var(--at-texto); font-weight: 600; }
+
+    .rac, .rc { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+
+    /* veredicto */
+    .veredicto {
+      display: grid; gap: 2px; margin: 40px 0 8px;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      background: var(--at-linha); border: 1px solid var(--at-linha);
+      border-radius: var(--at-r-painel); overflow: hidden;
+    }
+    .vc { background: var(--at-superficie); padding: 20px 22px; }
+    .vc .n {
+      font-family: "Bricolage Grotesque", sans-serif; font-size: 30px;
+      font-weight: 700; line-height: 1; letter-spacing: -0.03em;
+    }
+    .vc .r { font-size: 13px; color: var(--at-texto-suave); margin-top: 6px; }
+    .vc.bom .n { color: var(--at-ok-texto); }
+    .vc.mau .n { color: var(--at-erro-texto); }
+
+    /* cabeçalho das colunas, que acompanha o scroll */
+    .colunas {
+      position: sticky; top: 0; z-index: 2;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+      background: var(--at-chao); padding: 14px 0 10px; margin-top: 52px;
+      border-bottom: 1px solid var(--at-linha);
+    }
+    .colunas div { font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+    .colunas .esq { color: var(--at-erro-texto); }
+    .colunas .dir { color: var(--at-ok-texto); }
+
+    /* linhas de comparação */
+    .linha { padding: 26px 0; border-bottom: 1px solid var(--at-linha); }
+    .linha > h3 { margin-bottom: 4px; }
+    .linha > .porque { font-size: 13.5px; color: var(--at-texto-suave); max-width: 62ch; margin-bottom: 18px; }
+    .par { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .cel {
+      background: var(--at-superficie); border: 1px solid var(--at-linha);
+      border-radius: var(--at-r-panel, 12px); padding: 20px;
+      display: flex; flex-direction: column; gap: 14px; min-width: 0;
+    }
+    .rac {
+      font-size: 12px; display: flex; align-items: baseline; gap: 7px;
+      padding-top: 12px; border-top: 1px dashed var(--at-linha); margin-top: auto;
+    }
+    .rac b { font-size: 15px; font-weight: 500; }
+    .rac .falha { color: var(--at-erro-texto); }
+    .rac .passa { color: var(--at-ok-texto); }
+    .rac .cod { color: var(--at-texto-suave); }
+
+    /* ── espécimes ────────────────────────────────────────────────
+       Estes fragmentos mostram as cores EXATAS das duas paletas, por
+       isso não passam pelos tokens: são amostras, não interface. É o
+       único sítio da folha onde um literal é o correto. */
+    .amostra { background: #FFFFFF; border-radius: var(--at-r-controlo); padding: 16px; }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 13px; font-weight: 600; padding: 6px 12px;
+      border-radius: var(--at-r-pilula);
+    }
+    .badge .pt { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .badge + .badge { margin-left: 8px; }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      font: 600 14px/1 "IBM Plex Sans", sans-serif;
+      padding: 11px 20px; border-radius: var(--at-r-controlo); border: none;
+    }
+    .campo {
+      width: 100%; font: 400 14px/1 "IBM Plex Sans", sans-serif;
+      padding: 11px 13px; border-radius: var(--at-r-controlo);
+      background: #fff; border: 1px solid #E5E0ED; color: #292331;
+    }
+
+    .barras { display: flex; height: 12px; border-radius: var(--at-r-pilula); overflow: hidden; }
+    .barras span { display: block; }
+    .leg { display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; color: #716A78; margin-top: 10px; }
+    .leg i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; margin-right: 5px; vertical-align: -1px; }
+
+    /* tabela */
+    .tab-env {
+      overflow-x: auto; margin-top: 14px; border: 1px solid var(--at-linha);
+      border-radius: var(--at-r-painel); background: var(--at-superficie);
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 560px; }
+    th {
+      text-align: left; font-size: 11px; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--at-texto-suave);
+      padding: 13px 16px; border-bottom: 1px solid var(--at-linha); white-space: nowrap;
+    }
+    td { padding: 12px 16px; border-bottom: 1px solid var(--at-linha); vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    .pastilha { display: inline-flex; align-items: center; gap: 7px; }
+    .pastilha i { width: 15px; height: 15px; border-radius: 4px; border: 1px solid rgba(41,35,49,.14); flex-shrink: 0; }
+    td .rc { font-size: 12.5px; }
+
+    .nota {
+      margin-top: 40px; padding: 22px 24px; border-radius: var(--at-r-painel);
+      background: var(--at-roxo-veu); border: 1px solid var(--at-linha);
+      font-size: 14.5px; max-width: 72ch;
+    }
+    .nota h3 { margin-bottom: 8px; }
+    .nota p + p { margin-top: 10px; }
+
+    a { color: var(--at-roxo); }
+
+    @media (max-width: 720px) {
+      .par, .colunas { grid-template-columns: 1fr; }
+      .colunas { position: static; }
+      .cel { gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+<div class="env">
+
+  <span class="selo">Portal das Finanças AT · Auditoria de contraste</span>
+  <h1>O roxo aguenta. As cores de estado não.</h1>
+  <p class="abre">
+    Medi as 27 cores da paleta contra a WCAG 2.1. A espinha roxa passa toda,
+    com folga, e fica exatamente como está. <strong>O problema está nas quatro
+    cores de estado</strong>, que vieram de uma paleta genérica e foram feitas
+    para preencher, não para escrever. Abaixo, os mesmos componentes do portal
+    nas duas versões.
+  </p>
+
+  <div class="veredicto">
+    <div class="vc bom"><div class="n">14</div><div class="r">cores aprovadas, sem tocar</div></div>
+    <div class="vc mau"><div class="n">7</div><div class="r">reprovam para o uso que têm</div></div>
+    <div class="vc"><div class="n mono" style="color:var(--at-roxo)">4,5:1</div><div class="r">mínimo para texto corrente</div></div>
+    <div class="vc"><div class="n mono" style="color:var(--at-roxo)">3:1</div><div class="r">mínimo para foco e gráficos</div></div>
+  </div>
+
+  <div class="colunas">
+    <div class="esq">Como está</div>
+    <div class="dir">Corrigida</div>
+  </div>
+
+  <!-- 1. situação fiscal -->
+  <section class="linha">
+    <h3>Situação fiscal</h3>
+    <p class="porque">
+      É o primeiro elemento da sua maqueta e o mais importante do portal:
+      diz ao contribuinte se tem dívidas. Está escrito na cor de preenchimento,
+      sobre o fundo claro da mesma família.
+    </p>
+    <div class="par">
+      <div class="cel">
+        <div class="amostra">
+          <span class="badge" style="background:#DCFCE7; color:#22C55E">
+            <span class="pt" style="background:#22C55E"></span>Situação regular
+          </span>
+          <span class="badge" style="background:#FEF3C7; color:#F59E0B">
+            <span class="pt" style="background:#F59E0B"></span>Pendente
+          </span>
+        </div>
+        <div class="rac"><span class="cod">#22C55E sobre #DCFCE7</span> <b class="falha">2,07:1</b></div>
+      </div>
+      <div class="cel">
+        <div class="amostra">
+          <span class="badge" style="background:#DCFCE7; color:#15803D">
+            <span class="pt" style="background:#15803D"></span>Situação regular
+          </span>
+          <span class="badge" style="background:#FEF3C7; color:#B45309">
+            <span class="pt" style="background:#B45309"></span>Pendente
+          </span>
+        </div>
+        <div class="rac"><span class="cod">#15803D sobre #DCFCE7</span> <b class="passa">4,57:1</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. alertas -->
+  <section class="linha">
+    <h3>Avisos de coima e prazo</h3>
+    <p class="porque">
+      Um aviso que não se lê não é um aviso. Estes são os dois estados que
+      o formando precisa de perceber depressa.
+    </p>
+    <div class="par">
+      <div class="cel">
+        <div class="amostra">
+          <p style="margin:0 0 10px; color:#EF4444; font-weight:600; font-size:14px">
+            Coima de P$ 25,00 por entrega fora de prazo
+          </p>
+          <p style="margin:0; color:#3B82F6; font-weight:600; font-size:14px">
+            A declaração de IRC abre a 1 de outubro
+          </p>
+        </div>
+        <div class="rac"><span class="cod">#EF4444 · #3B82F6</span> <b class="falha">3,76 · 3,68:1</b></div>
+      </div>
+      <div class="cel">
+        <div class="amostra">
+          <p style="margin:0 0 10px; color:#B91C1C; font-weight:600; font-size:14px">
+            Coima de P$ 25,00 por entrega fora de prazo
+          </p>
+          <p style="margin:0; color:#1D4ED8; font-weight:600; font-size:14px">
+            A declaração de IRC abre a 1 de outubro
+          </p>
+        </div>
+        <div class="rac"><span class="cod">#B91C1C · #1D4ED8</span> <b class="passa">6,47 · 6,70:1</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. texto terciário -->
+  <section class="linha">
+    <h3>Texto terciário</h3>
+    <p class="porque">
+      A paleta chama-lhe "elementos discretos". Discreto não pode querer
+      dizer invisível: legendas, datas e notas de rodapé continuam a ser
+      texto que alguém tem de ler.
+    </p>
+    <div class="par">
+      <div class="cel">
+        <div class="amostra">
+          <p style="margin:0; color:#292331; font-weight:600; font-size:14px">IRC · Exercício de 2026</p>
+          <p style="margin:4px 0 0; color:#A39DA9; font-size:13px">Entregue a 04/09/2026 · Referência 20006 118 402 771</p>
+        </div>
+        <div class="rac"><span class="cod">#A39DA9 sobre branco</span> <b class="falha">2,64:1</b></div>
+      </div>
+      <div class="cel">
+        <div class="amostra">
+          <p style="margin:0; color:#292331; font-weight:600; font-size:14px">IRC · Exercício de 2026</p>
+          <p style="margin:4px 0 0; color:#716A78; font-size:13px">Entregue a 04/09/2026 · Referência 20006 118 402 771</p>
+        </div>
+        <div class="rac"><span class="cod">#716A78 sobre branco</span> <b class="passa">5,20:1</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. foco -->
+  <section class="linha">
+    <h3>Anel de foco</h3>
+    <p class="porque">
+      Quem navega por teclado só sabe onde está por causa deste anel.
+      A WCAG pede-lhe 3:1 contra o que está à volta.
+    </p>
+    <div class="par">
+      <div class="cel">
+        <div class="amostra">
+          <input class="campo" value="NIF do contribuinte" readonly
+                 style="outline:3px solid #B89EDB; outline-offset:2px">
+        </div>
+        <div class="rac"><span class="cod">#B89EDB sobre branco</span> <b class="falha">2,35:1</b></div>
+      </div>
+      <div class="cel">
+        <div class="amostra">
+          <input class="campo" value="NIF do contribuinte" readonly
+                 style="outline:3px solid #7C5CB5; outline-offset:2px">
+        </div>
+        <div class="rac"><span class="cod">#7C5CB5 sobre branco</span> <b class="passa">5,18:1</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. gráficos -->
+  <section class="linha">
+    <h3>Série de gráficos</h3>
+    <p class="porque">
+      O histórico de 12 meses da sua maqueta. Um segmento que não se
+      distingue do fundo não conta nada.
+    </p>
+    <div class="par">
+      <div class="cel">
+        <div class="amostra">
+          <div class="barras">
+            <span style="width:38%; background:#5B3F8C"></span>
+            <span style="width:27%; background:#7C5CB5"></span>
+            <span style="width:21%; background:#B89EDB"></span>
+            <span style="width:14%; background:#E5D9F3"></span>
+          </div>
+          <div class="leg">
+            <span><i style="background:#5B3F8C"></i>IRC</span>
+            <span><i style="background:#7C5CB5"></i>IVA</span>
+            <span><i style="background:#B89EDB"></i>Retenções</span>
+            <span><i style="background:#E5D9F3"></i>Coimas</span>
+          </div>
+        </div>
+        <div class="rac"><span class="cod">2 de 4 abaixo de 3:1</span> <b class="falha">2,35 · 1,35:1</b></div>
+      </div>
+      <div class="cel">
+        <div class="amostra">
+          <div class="barras">
+            <span style="width:38%; background:#3F2A68"></span>
+            <span style="width:27%; background:#5B3F8C"></span>
+            <span style="width:21%; background:#7C5CB5"></span>
+            <span style="width:14%; background:#9B7FC9"></span>
+          </div>
+          <div class="leg">
+            <span><i style="background:#3F2A68"></i>IRC</span>
+            <span><i style="background:#5B3F8C"></i>IVA</span>
+            <span><i style="background:#7C5CB5"></i>Retenções</span>
+            <span><i style="background:#9B7FC9"></i>Coimas</span>
+          </div>
+        </div>
+        <div class="rac"><span class="cod">a mais fraca das quatro</span> <b class="passa">3,35:1</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. o que não muda -->
+  <section class="linha" style="border-bottom:none">
+    <h3>O que não muda</h3>
+    <p class="porque">
+      A identidade fica intacta. Estes já passavam, e são eles que dão
+      a cara ao portal.
+    </p>
+    <div class="par">
+      <div class="cel" style="grid-column:1 / -1">
+        <div class="amostra" style="display:flex; flex-wrap:wrap; gap:12px; align-items:center">
+          <button class="btn" style="background:#5B3F8C; color:#fff">Entregar declaração</button>
+          <button class="btn" style="background:#fff; color:#5B3F8C; border:1px solid #E5E0ED">Guardar rascunho</button>
+          <span style="color:#5B3F8C; font-weight:600; font-size:14px; text-decoration:underline">Consultar património</span>
+          <span style="color:#292331; font-weight:600; font-size:14px">Texto principal</span>
+        </div>
+        <div class="rac">
+          <span class="cod">botão 8,29:1 · sidebar 10,38:1 · texto 15,23:1</span>
+          <b class="passa">todos passam</b>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- tabela -->
+  <h2 style="margin-top:48px">As sete trocas, ao certo</h2>
+  <p class="abre" style="margin-bottom:20px; font-size:15px">
+    Nenhuma cor sai da paleta. As de estado passam a ter duas versões, como
+    já acontece no Prepacoin e no Subsight: uma para preencher, outra para
+    escrever.
+  </p>
+  <div class="tab-env">
+    <table>
+      <thead>
+        <tr><th>Papel</th><th>Como está</th><th></th><th>Corrigida</th><th></th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Sucesso, em texto</td>
+          <td><span class="pastilha"><i style="background:#22C55E"></i><span class="rc">#22C55E</span></span></td>
+          <td><span class="rc" style="color:var(--at-erro-texto)">2,28:1</span></td>
+          <td><span class="pastilha"><i style="background:#15803D"></i><span class="rc">#15803D</span></span></td>
+          <td><span class="rc" style="color:var(--at-ok-texto)">5,02:1</span></td>
+        </tr>
+        <tr>
+          <td>Informação, em texto</td>
+          <td><span class="pastilha"><i style="background:#3B82F6"></i><span class="rc">#3B82F6</span></span></td>
+          <td><span class="rc" style="color:var(--at-erro-texto)">3,68:1</span></td>
+          <td><span class="pastilha"><i style="background:#1D4ED8"></i><span class="rc">#1D4ED8</span></span></td>
+          <td><span class="rc" style="color:var(--at-ok-texto)">6,70:1</span></td>
+        </tr>
+        <tr>
+          <td>Aviso, em texto</td>
+          <td><span class="pastilha"><i style="background:#F59E0B"></i><span class="rc">#F59E0B</span></span></td>
+          <td><span class="rc" style="color:var(--at-erro-texto)">2,15:1</span></td>
+          <td><span class="pastilha"><i style="background:#B45309"></i><span class="rc">#B45309</span></span></td>
+          <td><span class="rc" style="color:var(--at-ok-texto)">5,02:1</span></td>
+        </tr>
+        <tr>
+          <td>Erro, em texto</td>
+          <td><span class="pastilha"><i style="background:#EF4444"></i><span class="rc">#EF4444</span></span></td>
+          <td><span class="rc" style="color:var(--at-erro-texto)">3,76:1</span></td>
+          <td><span class="pastilha"><i style="background:#B91C1C"></i><span class="rc">#B91C1C</span></span></td>
+          <td><span class="rc" style="color:var(--at-ok-texto)">6,47:1</span></td>
+        </tr>
+        <tr>
+          <td>Texto terciário</td>
+          <td><span class="pastilha"><i style="background:#A39DA9"></i><span class="rc">#A39DA9</span></span></td>
+          <td><span class="rc" style="color:var(--at-erro-texto)">2,64:1</span></td>
+          <td><span class="pastilha"><i style="background:#716A78"></i><span class="rc">#716A78</span></span></td>
+          <td><span class="rc" style="color:var(--at-ok-texto)">5,20:1</span></td>
+        </tr>
+        <tr>
+          <td>Anel de foco</td>
+          <td><span class="pastilha"><i style="background:#B89EDB"></i><span class="rc">#B89EDB</span></span></td>
+          <td><span class="rc" style="color:var(--at-erro-texto)">2,35:1</span></td>
+          <td><span class="pastilha"><i style="background:#7C5CB5"></i><span class="rc">#7C5CB5</span></span></td>
+          <td><span class="rc" style="color:var(--at-ok-texto)">5,18:1</span></td>
+        </tr>
+        <tr>
+          <td>Gráfico, 3.ª e 4.ª séries</td>
+          <td><span class="pastilha"><i style="background:#B89EDB"></i><i style="background:#E5D9F3"></i></span></td>
+          <td><span class="rc" style="color:var(--at-erro-texto)">2,35 · 1,35:1</span></td>
+          <td><span class="pastilha"><i style="background:#7C5CB5"></i><i style="background:#9B7FC9"></i></span></td>
+          <td><span class="rc" style="color:var(--at-ok-texto)">5,18 · 3,35:1</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="nota">
+    <h3>Porque é que as cores de estado falham todas</h3>
+    <p>
+      São as cores por omissão do Tailwind: <span class="mono">green-500</span>,
+      <span class="mono">blue-500</span>, <span class="mono">amber-500</span> e
+      <span class="mono">red-500</span>. Estão desenhadas para serem um
+      preenchimento com texto branco por cima, ou um ponto de cor. Nenhuma foi
+      pensada para ser lida como texto sobre branco.
+    </p>
+    <p>
+      O mesmo padrão apareceu nas outras três apps do ecossistema: o lima do
+      Prepacoin tem 1,10:1 sobre branco e o laranja do Subsight 2,53:1. Em
+      todos, a solução é a mesma — uma cor para preencher, uma versão mais
+      escura para escrever. O azul do ClassCard foi a exceção, por ser escuro
+      o suficiente para fazer os dois trabalhos.
+    </p>
+    <p style="color:var(--at-texto-suave); font-size:13.5px">
+      Medições em WCAG 2.1, contraste relativo. O mínimo é 4,5:1 para texto
+      corrente, 3:1 para texto grande, anéis de foco e elementos gráficos.
+    </p>
+  </div>
+
+</div>
+</body>
+</html>

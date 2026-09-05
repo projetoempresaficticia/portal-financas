@@ -1,0 +1,127 @@
+/* ═══════════════════════════════════════════════════════════════════
+   PORTAL DAS FINANÇAS AT — biblioteca de design
+   Autoridade Tributária do ecossistema Prepara Portugal.
+
+   Paleta fornecida pelo Germano (2026-09-05) e AUDITADA contra a
+   WCAG 2.1 antes de entrar. O resultado está em `index.html`.
+
+   O QUE A AUDITORIA ENCONTROU
+
+   A espinha roxa passa toda e fica intocada:
+     #292331 texto principal ... 15,23:1
+     #3F2A68 roxo escuro ....... 12,05:1
+     #4A3279 sidebar ........... 10,38:1 (com branco por cima)
+     #5B3F8C roxo principal ..... 8,29:1  (serve de texto E de botão)
+     #716A78 texto secundário ... 5,20:1
+     #7C5CB5 roxo claro ......... 5,18:1
+
+   As quatro cores de estado NÃO passavam. São as cores por omissão do
+   Tailwind (green-500, blue-500, amber-500, red-500), desenhadas para
+   preencher com branco por cima, nunca para serem lidas como texto:
+
+     #22C55E sucesso ..... 2,28:1 sobre branco, 2,07:1 sobre #DCFCE7
+     #F59E0B aviso ....... 2,15:1
+     #EF4444 erro ........ 3,76:1
+     #3B82F6 informação .. 3,68:1
+
+   Daí a REGRA desta biblioteca, a mesma que já vale no Prepacoin e no
+   Subsight: cada cor de estado tem DUAS versões, uma para preencher e
+   uma, mais escura, para escrever. O `--at-ok` pinta o ponto e o fundo;
+   o `--at-ok-texto` escreve por cima dele.
+
+   Mais três correções, pela mesma razão:
+     texto terciário  #A39DA9 (2,64:1) → #716A78 (5,20:1)
+     anel de foco     #B89EDB (2,35:1) → #7C5CB5 (5,18:1)
+     gráficos 3 e 4   #B89EDB / #E5D9F3 → #7C5CB5 / #9B7FC9
+
+   Nenhuma cor saiu da paleta. Os tons originais que reprovavam como
+   texto continuam cá, no papel para que foram feitos: preencher.
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── marca ── */
+  --at-roxo-escuro: #3F2A68;
+  --at-roxo: #5B3F8C;
+  --at-roxo-claro: #7C5CB5;
+  --at-roxo-veu: #EDE5F5;
+  --at-sidebar: #4A3279;
+  --at-hover: #6D4AB5;
+  --at-ativo: #503A73;
+
+  /* ── superfícies ── */
+  --at-chao: #F6F2FA;
+  --at-superficie: #FFFFFF;
+  --at-cinza: #F9F7FB;
+  --at-linha: #E5E0ED;
+
+  /* ── texto ── */
+  --at-texto: #292331;
+  --at-texto-suave: #716A78;
+  /* o #A39DA9 da paleta original dava 2,64:1 e não entra como texto */
+
+  /* ── estado: preencher | escrever ── */
+  --at-ok: #22C55E;          --at-ok-texto: #15803D;    --at-ok-veu: #DCFCE7;
+  --at-info: #3B82F6;        --at-info-texto: #1D4ED8;  --at-info-veu: #DBEAFE;
+  --at-aviso: #F59E0B;       --at-aviso-texto: #B45309; --at-aviso-veu: #FEF3C7;
+  --at-erro: #EF4444;        --at-erro-texto: #B91C1C;  --at-erro-veu: #FDE2E2;
+
+  /* ── séries de gráficos, todas acima de 3:1 sobre branco ── */
+  --at-s1: #3F2A68;
+  --at-s2: #5B3F8C;
+  --at-s3: #7C5CB5;
+  --at-s4: #9B7FC9;
+
+  /* ── forma e ritmo ── */
+  --at-r-marca: 6px;
+  --at-r-controlo: 9px;
+  --at-r-painel: 14px;
+  --at-r-pilula: 999px;
+
+  --at-e1: 4px;  --at-e2: 8px;  --at-e3: 12px; --at-e4: 16px;
+  --at-e5: 24px; --at-e6: 32px; --at-e7: 48px; --at-e8: 64px;
+
+  --at-sombra: 0 1px 2px rgba(41, 35, 49, .04), 0 8px 24px rgba(41, 35, 49, .06);
+
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+
+/* rede de segurança: uma regra de autor com `display` vence o [hidden]
+   nativo. Já aconteceu três vezes neste ecossistema. */
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  background: var(--at-chao);
+  color: var(--at-texto);
+  font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: "Bricolage Grotesque", "IBM Plex Sans", system-ui, sans-serif;
+  margin: 0;
+  text-wrap: balance;
+}
+h1 { font-size: clamp(30px, 5vw, 46px); font-weight: 700; letter-spacing: -0.025em; line-height: 1.05; }
+h2 { font-size: clamp(19px, 2.6vw, 24px); font-weight: 700; letter-spacing: -0.015em; }
+h3 { font-size: 15px; font-weight: 700; letter-spacing: -0.01em; }
+p { margin: 0; }
+
+.mono { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+
+:focus-visible {
+  outline: 2px solid var(--at-roxo-claro);
+  outline-offset: 2px;
+  border-radius: var(--at-r-marca);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
