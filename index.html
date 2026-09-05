@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="at-versao" content="4aabf0dd9913" />
+  <meta name="at-versao" content="8cbcc98b641c" />
   <title>Portal das Finanças</title>
   <link rel="icon" href="favicon-32.png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" />
-  <link rel="stylesheet" href="web/biblioteca/at.css?v=ee164f05" />
+  <link rel="stylesheet" href="web/biblioteca/at.css?v=95a96b66" />
 </head>
 <body>
 
@@ -37,19 +37,27 @@
                  placeholder="nome@prepara.pt" />
         </div>
 
-        <div class="at-campo">
+        <div class="at-campo at-campo-senha">
           <label for="senha">Senha</label>
           <input id="senha" type="password" required autocomplete="current-password"
                  placeholder="A sua senha" />
+          <button type="button" class="at-ver-senha" id="btn-ver-senha"
+                  aria-pressed="false" aria-controls="senha">Mostrar</button>
         </div>
 
-        <button type="submit" class="at-botao" style="width:100%">Entrar</button>
+        <button type="submit" class="at-botao" style="width:100%">
+          <span class="at-icone i-seta-direita" aria-hidden="true"></span>Entrar
+        </button>
         <p class="at-msg" id="msg-login"></p>
       </form>
 
-      <p class="at-ajuda" style="margin-top:var(--at-e4)">
-        Esqueceu-se da senha? Peça ao professor para a repor.
-      </p>
+      <div class="at-entrada-rodape">
+        <p class="at-ajuda">Esqueceu-se da senha? Peça ao professor para a repor.</p>
+        <a href="consultar.html">
+          <span class="at-icone i-escudo" aria-hidden="true"></span>
+          Consultar um protocolo
+        </a>
+      </div>
     </div>
   </div>
 
@@ -134,8 +142,8 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://projetoempresaficticia.github.io/pp-base/web/comum.js"></script>
-  <script src="web/biblioteca/at.js?v=ca0f02bd"></script>
+  <script src="web/biblioteca/at.js?v=1b50f2ff"></script>
   <script src="web/atualizar.js?v=44ebef86"></script>
-  <script src="app.js?v=da208fe5"></script>
+  <script src="app.js?v=1fc305b6"></script>
 </body>
 </html>

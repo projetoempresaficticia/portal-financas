@@ -692,3 +692,41 @@ p { margin: 0; }
 .at-hero .at-situacao-nota {
   color: rgba(255, 255, 255, .88); margin: var(--at-e2) 0 0; max-width: 62ch;
 }
+
+/* ── mostrar/esconder a senha ────────────────────────────────────────
+   Sem isto, quem escreve mal uma senha longa não tem como confirmar
+   antes de submeter — só sabe pelo erro. */
+.at-campo-senha { position: relative; }
+.at-campo-senha input { padding-right: 96px; }
+.at-ver-senha {
+  position: absolute; right: 5px; bottom: 5px;
+  height: 32px; padding: 0 10px;
+  border: 0; border-radius: var(--at-r-controlo);
+  background: transparent; color: var(--at-roxo);
+  font: 500 12.5px/1 "IBM Plex Sans", system-ui, sans-serif;
+  cursor: pointer;
+}
+.at-ver-senha:hover { background: var(--at-roxo-veu); }
+.at-ver-senha:focus-visible { outline: 2px solid var(--at-roxo); outline-offset: 2px; }
+
+/* ── rodapé do cartão de entrada ─────────────────────────────────────
+   A consulta de protocolo é pública de propósito: quem precisa de
+   confirmar uma entrega é um terceiro, que não tem conta nenhuma. Sem
+   este link não havia forma de lá chegar sem entrar primeiro. */
+.at-entrada-rodape {
+  margin-top: clamp(14px, 2.4vh, 22px);
+  padding-top: var(--at-e4);
+  border-top: 1px solid var(--at-linha);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--at-e3); flex-wrap: wrap;
+}
+.at-entrada-rodape a {
+  display: inline-flex; align-items: center; gap: var(--at-e2);
+  color: var(--at-roxo); font-size: 13px; font-weight: 600; text-decoration: none;
+}
+.at-entrada-rodape a:hover { text-decoration: underline; }
+.at-entrada-rodape .at-ajuda { margin: 0; }
+
+@media (min-width: 901px) and (max-height: 780px) {
+  .at-entrada-rodape { margin-top: var(--at-e3); padding-top: var(--at-e3); }
+}

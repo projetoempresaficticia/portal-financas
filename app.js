@@ -222,5 +222,19 @@ async function verificarSessao() {
   await carregar();
 }
 
+// Mostrar/esconder a senha. O aria-pressed conta a quem usa leitor de ecrã
+// em que estado está o botão; o texto muda para quem o lê.
+const btnVerSenha = document.getElementById('btn-ver-senha');
+if (btnVerSenha) {
+  btnVerSenha.addEventListener('click', () => {
+    const campo = document.getElementById('senha');
+    const escondida = campo.type === 'password';
+    campo.type = escondida ? 'text' : 'password';
+    btnVerSenha.textContent = escondida ? 'Esconder' : 'Mostrar';
+    btnVerSenha.setAttribute('aria-pressed', String(escondida));
+    campo.focus();
+  });
+}
+
 ligarFormularioLogin(verificarSessao);
 verificarSessao();

@@ -212,3 +212,15 @@ function ligarSeletorMes(id, aoMudar) {
   });
   return campo;
 }
+
+// Os links escritos à mão no HTML levam a versão também — não só os que
+// este ficheiro gera. Sem isto, clicar em "Consultar um protocolo" a
+// partir da entrada caía outra vez na cópia em cache dessa página.
+function versionarLinks() {
+  document.querySelectorAll('a[href$=".html"]').forEach((a) => {
+    const h = a.getAttribute('href');
+    if (!h || /^https?:/.test(h) || h.includes('v=')) return;
+    a.setAttribute('href', comVersao(h));
+  });
+}
+document.addEventListener('DOMContentLoaded', versionarLinks);
