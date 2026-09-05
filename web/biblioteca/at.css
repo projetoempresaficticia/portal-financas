@@ -125,3 +125,357 @@ p { margin: 0; }
     transition-duration: .01ms !important;
   }
 }
+
+/* ───────────────────────────────────────────────────────────────────
+   2. ESQUELETO
+   Sidebar fixa à esquerda e conteúdo à direita, como na maqueta. A
+   sidebar é roxa em todo o lado: é a âncora visual do portal.
+   ─────────────────────────────────────────────────────────────────── */
+
+.at-app {
+  display: grid;
+  grid-template-columns: 248px minmax(0, 1fr);
+  min-height: 100svh;
+}
+
+.at-lateral {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  gap: var(--at-e1);
+  padding: var(--at-e5) var(--at-e3);
+  background: var(--at-sidebar);
+  color: #FFFFFF;
+  overflow-y: auto;
+}
+
+.at-marca {
+  display: flex; align-items: center; gap: var(--at-e3);
+  padding: 0 var(--at-e3) var(--at-e5);
+}
+.at-marca picture { display: block; flex-shrink: 0; }
+.at-marca img { width: 34px; height: 34px; display: block; }
+.at-marca-nome {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 700; font-size: 15px; line-height: 1.15; letter-spacing: -0.01em;
+}
+.at-marca-nome small {
+  display: block; font-family: "IBM Plex Sans", sans-serif;
+  font-weight: 400; font-size: 9.5px; letter-spacing: .12em;
+  text-transform: uppercase; opacity: .62; margin-top: 3px;
+}
+
+.at-lateral a {
+  display: flex; align-items: center; gap: var(--at-e3);
+  padding: 10px var(--at-e3);
+  border-radius: var(--at-r-controlo);
+  color: rgba(255, 255, 255, .82);
+  text-decoration: none; font-size: 14px; font-weight: 500;
+  transition: background 120ms ease, color 120ms ease;
+}
+.at-lateral a:hover { background: rgba(255, 255, 255, .10); color: #FFFFFF; }
+/* o item ativo inverte: fundo claro, texto roxo, como na maqueta */
+.at-lateral a[aria-current="page"] {
+  background: #FFFFFF;
+  color: var(--at-roxo);
+  font-weight: 600;
+}
+.at-lateral img { width: 20px; height: 20px; display: block; flex-shrink: 0; }
+.at-lateral hr {
+  border: none; border-top: 1px solid rgba(255, 255, 255, .16);
+  margin: var(--at-e3);
+}
+.at-empurra { margin-top: auto; }
+
+.at-principal { min-width: 0; display: flex; flex-direction: column; }
+
+.at-topo {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--at-e4);
+  padding: var(--at-e4) var(--at-e6);
+  background: var(--at-superficie);
+  border-bottom: 1px solid var(--at-linha);
+}
+
+.at-conteudo {
+  flex: 1;
+  padding: var(--at-e6);
+  max-width: 1240px;
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .at-app { grid-template-columns: minmax(0, 1fr); }
+  .at-lateral {
+    position: static; height: auto; flex-direction: row; overflow-x: auto;
+    padding: var(--at-e3); gap: var(--at-e2);
+  }
+  .at-marca, .at-lateral hr, .at-empurra { display: none; }
+  .at-lateral a { white-space: nowrap; }
+  .at-conteudo, .at-topo { padding: var(--at-e4); }
+}
+
+/* ───────────────────────────────────────────────────────────────────
+   3. ÍCONES
+   Vêm pintados de origem, em quatro pastas. Ver ferramentas/gerar_icones.py.
+   Escolhe-se a pasta pela cor que o sítio pede, não por CSS.
+   ─────────────────────────────────────────────────────────────────── */
+
+.at-icone { width: 20px; height: 20px; display: inline-block; vertical-align: -4px; }
+.at-icone-16 { width: 16px; height: 16px; vertical-align: -3px; }
+.at-icone-24 { width: 24px; height: 24px; vertical-align: -6px; }
+
+/* ───────────────────────────────────────────────────────────────────
+   4. BOTÕES
+   ─────────────────────────────────────────────────────────────────── */
+
+.at-botao {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: var(--at-e2);
+  font: 600 14px/1 "IBM Plex Sans", system-ui, sans-serif;
+  min-height: 42px; padding: 0 var(--at-e5);
+  border: 1px solid transparent; border-radius: var(--at-r-controlo);
+  background: var(--at-roxo); color: #FFFFFF;
+  text-decoration: none; cursor: pointer; white-space: nowrap;
+  transition: background 120ms ease, transform 120ms ease;
+}
+.at-botao:hover { background: var(--at-hover); }
+.at-botao:active { background: var(--at-ativo); transform: translateY(1px); }
+.at-botao:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+.at-botao-linha {
+  background: var(--at-superficie); color: var(--at-roxo);
+  border-color: var(--at-linha);
+}
+.at-botao-linha:hover { background: var(--at-roxo-veu); border-color: var(--at-roxo-claro); }
+
+.at-botao-fantasma {
+  background: transparent; color: var(--at-texto-suave);
+  border-color: transparent; min-height: 36px; padding: 0 var(--at-e3);
+}
+.at-botao-fantasma:hover { background: var(--at-cinza); color: var(--at-texto); }
+
+.at-fila { display: flex; gap: var(--at-e3); align-items: center; flex-wrap: wrap; }
+
+/* ───────────────────────────────────────────────────────────────────
+   5. FORMULÁRIOS
+   Rótulo por cima, ajuda a seguir, erro por baixo do campo a que
+   pertence. Nunca placeholder como rótulo.
+   ─────────────────────────────────────────────────────────────────── */
+
+.at-campo { margin-bottom: var(--at-e4); }
+.at-campo label {
+  display: block; font-size: 13px; font-weight: 500;
+  color: var(--at-texto); margin-bottom: var(--at-e2);
+}
+.at-campo input, .at-campo select, .at-campo textarea {
+  width: 100%; font: 400 14px/1.4 "IBM Plex Sans", system-ui, sans-serif;
+  min-height: 42px; padding: 10px var(--at-e3);
+  color: var(--at-texto); background: var(--at-superficie);
+  border: 1px solid var(--at-linha); border-radius: var(--at-r-controlo);
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+.at-campo input::placeholder { color: var(--at-texto-suave); opacity: 1; }
+.at-campo input:hover { border-color: var(--at-roxo-claro); }
+.at-campo input:focus, .at-campo select:focus, .at-campo textarea:focus {
+  outline: none;
+  border-color: var(--at-roxo);
+  box-shadow: 0 0 0 3px rgba(91, 63, 140, .18);
+}
+.at-campo input[aria-invalid="true"] { border-color: var(--at-erro-texto); }
+.at-ajuda { font-size: 12px; color: var(--at-texto-suave); margin-top: var(--at-e2); }
+.at-erro { font-size: 12.5px; color: var(--at-erro-texto); margin-top: var(--at-e2); }
+
+/* a caixa de pesquisa da maqueta */
+.at-procurar { position: relative; flex: 1; max-width: 420px; }
+.at-procurar img {
+  position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+  width: 18px; height: 18px; pointer-events: none;
+}
+.at-procurar input {
+  width: 100%; font: 400 14px/1 "IBM Plex Sans", sans-serif;
+  min-height: 42px; padding: 0 var(--at-e4) 0 40px;
+  border: 1px solid var(--at-linha); border-radius: var(--at-r-pilula);
+  background: var(--at-superficie); color: var(--at-texto);
+}
+.at-procurar input:focus {
+  outline: none; border-color: var(--at-roxo);
+  box-shadow: 0 0 0 3px rgba(91, 63, 140, .18);
+}
+
+/* ───────────────────────────────────────────────────────────────────
+   6. SUPERFÍCIES
+   ─────────────────────────────────────────────────────────────────── */
+
+.at-cartao {
+  background: var(--at-superficie);
+  border: 1px solid var(--at-linha);
+  border-radius: var(--at-r-painel);
+  padding: var(--at-e5);
+}
+.at-cartao-cabeca {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--at-e3); margin-bottom: var(--at-e4);
+}
+
+.at-grade { display: grid; gap: var(--at-e4); }
+.at-grade-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.at-grade-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.at-grade-painel { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+@media (max-width: 980px) {
+  .at-grade-2, .at-grade-3, .at-grade-painel { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* o hero roxo com gradiente, como na maqueta */
+.at-hero {
+  position: relative; overflow: hidden;
+  border-radius: var(--at-r-painel);
+  padding: var(--at-e6);
+  background: linear-gradient(120deg, var(--at-roxo-escuro) 0%, var(--at-roxo-claro) 100%);
+  color: #FFFFFF;
+}
+.at-hero h2 { font-size: clamp(24px, 3.4vw, 34px); line-height: 1.1; }
+.at-hero .at-sobretitulo { color: rgba(255, 255, 255, .78); }
+.at-hero p { color: rgba(255, 255, 255, .86); max-width: 46ch; margin: var(--at-e3) 0 var(--at-e5); }
+.at-hero .at-botao { background: #FFFFFF; color: var(--at-roxo-escuro); }
+.at-hero .at-botao:hover { background: var(--at-roxo-veu); }
+
+.at-sobretitulo {
+  font-size: 11px; font-weight: 600; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--at-texto-suave);
+  margin-bottom: var(--at-e2);
+}
+
+/* cartão de serviço: ícone em cima, título, uma linha e uma seta */
+.at-servico {
+  display: flex; flex-direction: column; gap: var(--at-e3);
+  background: var(--at-superficie);
+  border: 1px solid var(--at-linha);
+  border-radius: var(--at-r-painel);
+  padding: var(--at-e5);
+  text-decoration: none; color: inherit;
+  transition: border-color 120ms ease, box-shadow 120ms ease, transform 120ms ease;
+}
+.at-servico:hover {
+  border-color: var(--at-roxo-claro);
+  box-shadow: var(--at-sombra);
+  transform: translateY(-1px);
+}
+.at-servico-icone {
+  width: 42px; height: 42px; border-radius: var(--at-r-controlo);
+  background: var(--at-roxo-veu);
+  display: grid; place-items: center; flex-shrink: 0;
+}
+.at-servico h3 { margin-bottom: 2px; }
+.at-servico p { font-size: 13px; color: var(--at-texto-suave); }
+.at-servico .at-seta { margin-top: auto; align-self: flex-end; }
+
+/* ───────────────────────────────────────────────────────────────────
+   7. ESTADO
+   Cada estado leva ÍCONE e PALAVRA, nunca só a cor: quem não distingue
+   verde de vermelho tem de continuar a perceber a sua situação fiscal.
+   O texto usa a variante escura; o ponto e o fundo usam a original.
+   ─────────────────────────────────────────────────────────────────── */
+
+.at-selo {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 12.5px; font-weight: 600;
+  padding: 5px 11px; border-radius: var(--at-r-pilula);
+  background: var(--at-cinza); color: var(--at-texto-suave);
+  white-space: nowrap;
+}
+.at-selo .at-ponto { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+.at-selo-ok    { background: var(--at-ok-veu);    color: var(--at-ok-texto); }
+.at-selo-ok    .at-ponto { background: var(--at-ok); }
+.at-selo-info  { background: var(--at-info-veu);  color: var(--at-info-texto); }
+.at-selo-info  .at-ponto { background: var(--at-info); }
+.at-selo-aviso { background: var(--at-aviso-veu); color: var(--at-aviso-texto); }
+.at-selo-aviso .at-ponto { background: var(--at-aviso); }
+.at-selo-erro  { background: var(--at-erro-veu);  color: var(--at-erro-texto); }
+.at-selo-erro  .at-ponto { background: var(--at-erro); }
+
+.at-msg { font-size: 13.5px; margin-top: var(--at-e3); color: var(--at-texto-suave); }
+.at-msg.ok    { color: var(--at-ok-texto); }
+.at-msg.erro  { color: var(--at-erro-texto); }
+.at-msg.aviso { color: var(--at-aviso-texto); }
+.at-msg:empty { display: none; }
+
+/* a caixa "Situação fiscal" da maqueta */
+.at-situacao { display: flex; align-items: flex-start; gap: var(--at-e3); }
+.at-situacao-icone {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: grid; place-items: center; flex-shrink: 0;
+}
+.at-situacao-titulo { font-weight: 600; font-size: 15px; }
+.at-situacao-nota { font-size: 12.5px; color: var(--at-texto-suave); margin-top: 2px; }
+
+/* ───────────────────────────────────────────────────────────────────
+   8. TABELAS
+   ─────────────────────────────────────────────────────────────────── */
+
+.at-rolavel { overflow-x: auto; }
+.at-tabela { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.at-tabela th {
+  text-align: left; font-size: 11px; font-weight: 600;
+  letter-spacing: .07em; text-transform: uppercase;
+  color: var(--at-texto-suave);
+  padding: var(--at-e3);
+  border-bottom: 1px solid var(--at-linha); white-space: nowrap;
+}
+.at-tabela td {
+  padding: var(--at-e3); border-bottom: 1px solid var(--at-linha);
+  vertical-align: middle;
+}
+.at-tabela tr:last-child td { border-bottom: none; }
+.at-tabela .num {
+  text-align: right; white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.at-vazio { color: var(--at-texto-suave); text-align: center; padding: var(--at-e7) var(--at-e4); }
+
+/* ───────────────────────────────────────────────────────────────────
+   9. GRÁFICOS
+   Quatro séries, todas acima de 3:1 sobre branco. As duas mais claras
+   da paleta original, com 2,35:1 e 1,35:1, não entram.
+   ─────────────────────────────────────────────────────────────────── */
+
+.at-barras {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 5px; height: 120px;
+}
+.at-barra { flex: 1; display: flex; flex-direction: column; align-items: center; gap: var(--at-e2); height: 100%; }
+.at-barra .haste {
+  width: 100%; max-width: 22px; margin-top: auto;
+  background: var(--at-s3); border-radius: var(--at-r-marca) var(--at-r-marca) 0 0;
+}
+.at-barra.destaque .haste { background: var(--at-s1); }
+.at-barra .rot { font-size: 10.5px; color: var(--at-texto-suave); }
+
+.at-barra-seg {
+  display: flex; height: 10px; border-radius: var(--at-r-pilula);
+  overflow: hidden; background: var(--at-cinza);
+}
+/* o traço entre segmentos: duas séries vizinhas podem ter luminância
+   parecida e sem esta fresta liam-se como um bloco só */
+.at-barra-seg span { display: block; box-shadow: 1px 0 0 var(--at-superficie); }
+.at-barra-seg span:last-child { box-shadow: none; }
+
+.at-legenda { display: flex; flex-wrap: wrap; gap: var(--at-e3); margin-top: var(--at-e3); }
+.at-legenda-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--at-texto-suave); }
+.at-legenda-marca { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+
+/* ───────────────────────────────────────────────────────────────────
+   10. UTILITÁRIOS
+   ─────────────────────────────────────────────────────────────────── */
+
+.at-suave { color: var(--at-texto-suave); }
+.at-num { font-variant-numeric: tabular-nums; }
+.at-centro { text-align: center; }
+.at-pilha { display: grid; gap: var(--at-e3); }
+.at-so-leitores {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}

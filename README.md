@@ -53,6 +53,42 @@ papéis.
 Nenhuma cor saiu da paleta. Os tons que reprovavam como texto continuam
 cá, no papel para que foram feitos.
 
+## A biblioteca
+
+[biblioteca.html](https://projetoempresaficticia.github.io/portal-financas/biblioteca.html)
+mostra tudo: cores, tipografia, ícones, componentes, estado e raios.
+
+- `web/biblioteca/at.css` — 42 tokens e 55 classes. Tokens, esqueleto
+  (sidebar roxa + conteúdo), botões, formulários, superfícies, hero,
+  cartões de serviço, estado, tabelas e gráficos.
+- **Tipografia:** Bricolage Grotesque no display, IBM Plex Sans no corpo,
+  IBM Plex Mono nos números que alinham em coluna — NIF, referências,
+  valores.
+- **Raios:** 6px marcas, 9px controlos, 14px painéis, 999px pílulas.
+
+## Os ícones
+
+Iconex, estilo Light, exportados do Figma em SVG. **A cor está trocada
+dentro do próprio ficheiro**, em quatro pastas:
+
+| pasta | cor | onde |
+|---|---|---|
+| `branco` | `#FFFFFF` | sidebar roxa e hero |
+| `roxo` | `#5B3F8C` | cartões de serviço e ênfase |
+| `tinta` | `#292331` | interface neutra |
+| `suave` | `#716A78` | apoio e legendas |
+
+Escolhe-se a pasta pela cor que o sítio pede, sem CSS pelo meio. Saem do
+Figma com `stroke="white"`, que sobre branco é invisível; o
+`ferramentas/gerar_icones.py` pinta-os e é repetível.
+
+Não há variante no `#A39DA9` da paleta original: dava 2,64:1 e um ícone
+funcional precisa de 3:1. São 30 ícones × 4 cores = 120 ficheiros, 102 KB
+no total.
+
+O `fill="none"` é preservado no recorte — é o que mantém o ícone vazado,
+e trocá-lo enchia a forma toda.
+
 ## Por fazer
 
 - Ícones: exportar do Figma (catálogo de 6128 já em cache na skill

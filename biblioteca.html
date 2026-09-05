@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="pc-versao" content="e7d1a06c2892" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Biblioteca — Portal das Finanças AT</title>
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <meta name="theme-color" content="#5B3F8C" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" />
+  <link rel="stylesheet" href="web/biblioteca/at.css?v=24fb6443" />
+  <script src="web/atualizar.js?v=ba3383e5"></script>
+  <style>
+    .secao { margin-bottom: var(--at-e8); }
+    .secao > h2 { margin-bottom: var(--at-e2); }
+    .secao > .intro { color: var(--at-texto-suave); max-width: 66ch; margin-bottom: var(--at-e5); font-size: 14px; }
+
+    .amostras { display: flex; flex-wrap: wrap; gap: var(--at-e3); align-items: center; }
+
+    .grade-cor { display: grid; grid-template-columns: repeat(auto-fill, minmax(184px, 1fr)); gap: var(--at-e3); }
+    .ficha { border: 1px solid var(--at-linha); border-radius: var(--at-r-controlo); overflow: hidden; background: var(--at-superficie); }
+    .ficha .prova { height: 68px; display: grid; place-items: center; font-weight: 600; font-size: 13px; }
+    .ficha .sobre { padding: var(--at-e3); font-size: 12px; }
+    .ficha .hex { font-family: "IBM Plex Mono", monospace; font-weight: 500; color: var(--at-texto); }
+    .ficha .razao { color: var(--at-texto-suave); margin-top: 3px; line-height: 1.45; }
+    .ficha .rc { font-family: "IBM Plex Mono", monospace; color: var(--at-ok-texto); font-size: 11.5px; }
+
+    .grade-icones { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: var(--at-e2); }
+    .ficha-icone {
+      display: flex; flex-direction: column; align-items: center; gap: var(--at-e2);
+      padding: var(--at-e3) var(--at-e2); border: 1px solid var(--at-linha);
+      border-radius: var(--at-r-controlo); background: var(--at-superficie);
+      font-size: 10.5px; color: var(--at-texto-suave); text-align: center;
+    }
+    .tira-cores { display: flex; gap: var(--at-e3); flex-wrap: wrap; }
+    .tira-cores > div {
+      flex: 1; min-width: 150px; padding: var(--at-e4);
+      border-radius: var(--at-r-controlo); border: 1px solid var(--at-linha);
+      display: flex; align-items: center; gap: var(--at-e3); font-size: 12.5px;
+    }
+    .tira-cores .escura { background: var(--at-sidebar); color: #fff; border-color: transparent; }
+
+    .escala > * { margin-bottom: var(--at-e2); }
+    .escala .nota { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--at-texto-suave); }
+
+    .lei {
+      border-left: 3px solid var(--at-roxo); background: var(--at-roxo-veu);
+      padding: var(--at-e4) var(--at-e5); border-radius: 0 var(--at-r-controlo) var(--at-r-controlo) 0;
+      margin-bottom: var(--at-e5); font-size: 14px; max-width: 74ch;
+    }
+    .lei p + p { margin-top: var(--at-e3); }
+  </style>
+</head>
+<body>
+  <div class="at-app">
+
+    <nav class="at-lateral" aria-label="Navegação principal">
+      <div class="at-marca">
+        <picture>
+          <source srcset="web/marca/at-marca.webp" type="image/webp" />
+          <img src="web/marca/at-marca.png" alt="" width="34" height="34" />
+        </picture>
+        <div class="at-marca-nome">
+          Portal das Finanças AT
+          <small>Autoridade Tributária</small>
+        </div>
+      </div>
+      <a href="index.html"><img class="at-icone" src="web/icones/branco/grafico.svg" alt="" />Auditoria da paleta</a>
+      <a href="biblioteca.html" aria-current="page"><img class="at-icone" src="web/icones/roxo/servicos.svg" alt="" />Biblioteca</a>
+      <hr />
+      <a href="#cores"><img class="at-icone" src="web/icones/branco/escudo.svg" alt="" />Cores</a>
+      <a href="#icones"><img class="at-icone" src="web/icones/branco/servicos.svg" alt="" />Ícones</a>
+      <a href="#componentes"><img class="at-icone" src="web/icones/branco/declaracoes.svg" alt="" />Componentes</a>
+      <a href="#estado" class="at-empurra"><img class="at-icone" src="web/icones/branco/ok.svg" alt="" />Estado</a>
+    </nav>
+
+    <div class="at-principal">
+      <header class="at-topo">
+        <div class="at-procurar">
+          <img src="web/icones/suave/procurar.svg" alt="" />
+          <input type="search" placeholder="Pesquisar serviços, formulários, impostos…" aria-label="Pesquisar" />
+        </div>
+        <span class="at-selo at-selo-ok"><span class="at-ponto"></span>Sessão ativa</span>
+      </header>
+
+      <main class="at-conteudo">
+        <div style="margin-bottom:var(--at-e7)">
+          <p class="at-sobretitulo">Portal das Finanças AT</p>
+          <h1>Biblioteca de design</h1>
+          <p class="at-suave" style="margin-top:var(--at-e3); max-width:64ch">
+            Tudo o que o portal usa para se desenhar. A paleta veio do Germano
+            e passou por uma auditoria de contraste antes de entrar — a
+            comparação está na <a href="index.html">página inicial</a>.
+          </p>
+        </div>
+
+        <!-- ══ a regra ══ -->
+        <section class="secao" id="cores">
+          <h2>A regra que decide o resto</h2>
+          <div class="lei">
+            <p>
+              A espinha roxa passa toda e fica intocada. O que mudou foram as
+              <strong>quatro cores de estado</strong>: são as por omissão do
+              Tailwind, desenhadas para preencher com branco por cima, e
+              reprovavam como texto — o sucesso dava 2,07:1 sobre o próprio
+              fundo claro.
+            </p>
+            <p>
+              Cada uma passou a ter <strong>duas versões</strong>: a original
+              pinta o ponto e o fundo, uma mais escura escreve por cima. É o
+              mesmo padrão do Prepacoin e do Subsight.
+            </p>
+          </div>
+
+          <h3 style="margin-bottom:var(--at-e3)">Marca</h3>
+          <div class="grade-cor" style="margin-bottom:var(--at-e5)">
+            <div class="ficha">
+              <div class="prova" style="background:#3F2A68; color:#fff">Aa</div>
+              <div class="sobre"><div class="hex">#3F2A68</div><div class="razao">Roxo escuro. Profundidade.</div><div class="rc">12,05:1</div></div>
+            </div>
+            <div class="ficha">
+              <div class="prova" style="background:#5B3F8C; color:#fff">Aa</div>
+              <div class="sobre"><div class="hex">#5B3F8C</div><div class="razao">Roxo principal. Serve de texto <em>e</em> de botão.</div><div class="rc">8,29:1</div></div>
+            </div>
+            <div class="ficha">
+              <div class="prova" style="background:#4A3279; color:#fff">Aa</div>
+              <div class="sobre"><div class="hex">#4A3279</div><div class="razao">Sidebar.</div><div class="rc">10,38:1</div></div>
+            </div>
+            <div class="ficha">
+              <div class="prova" style="background:#7C5CB5; color:#fff">Aa</div>
+              <div class="sobre"><div class="hex">#7C5CB5</div><div class="razao">Roxo claro. Foco e destaques.</div><div class="rc">5,18:1</div></div>
+            </div>
+            <div class="ficha">
+              <div class="prova" style="background:#292331; color:#fff">Aa</div>
+              <div class="sobre"><div class="hex">#292331</div><div class="razao">Texto principal.</div><div class="rc">15,23:1</div></div>
+            </div>
+            <div class="ficha">
+              <div class="prova" style="background:#716A78; color:#fff">Aa</div>
+              <div class="sobre"><div class="hex">#716A78</div><div class="razao">Texto secundário. Substituiu o terciário, que reprovava.</div><div class="rc">5,20:1</div></div>
+            </div>
+          </div>
+
+          <h3 style="margin-bottom:var(--at-e3)">Estado, em pares</h3>
+          <div class="grade-cor">
+            <div class="ficha">
+              <div class="prova" style="background:#DCFCE7; color:#15803D">Situação regular</div>
+              <div class="sobre"><div class="hex">#22C55E · #15803D</div><div class="razao">Preenche · escreve</div><div class="rc">4,57:1</div></div>
+            </div>
+            <div class="ficha">
+              <div class="prova" style="background:#DBEAFE; color:#1D4ED8">Informação</div>
+              <div class="sobre"><div class="hex">#3B82F6 · #1D4ED8</div><div class="razao">Preenche · escreve</div><div class="rc">5,49:1</div></div>
+            </div>
+            <div class="ficha">
+              <div class="prova" style="background:#FEF3C7; color:#B45309">Pendente</div>
+              <div class="sobre"><div class="hex">#F59E0B · #B45309</div><div class="razao">Preenche · escreve</div><div class="rc">4,51:1</div></div>
+            </div>
+            <div class="ficha">
+              <div class="prova" style="background:#FDE2E2; color:#B91C1C">Em dívida</div>
+              <div class="sobre"><div class="hex">#EF4444 · #B91C1C</div><div class="razao">Preenche · escreve</div><div class="rc">5,28:1</div></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══ tipografia ══ -->
+        <section class="secao">
+          <h2>Tipografia</h2>
+          <p class="intro">
+            Bricolage Grotesque no display, IBM Plex Sans no corpo, IBM Plex
+            Mono nos números que alinham em coluna — NIF, referências, valores.
+          </p>
+          <div class="at-cartao escala">
+            <h1 style="font-size:34px">Consulte. Declare. Regularize.</h1>
+            <p class="nota">Bricolage Grotesque 700</p>
+            <h2>Situação fiscal</h2>
+            <p class="nota">Bricolage Grotesque 700, títulos de painel</p>
+            <p>Aceda a todos os serviços fiscais da Autoridade Tributária.</p>
+            <p class="nota">IBM Plex Sans 400, corpo</p>
+            <p class="mono" style="font-size:22px">20006 118 402 771</p>
+            <p class="nota">IBM Plex Mono, tabular-nums, para as colunas alinharem</p>
+          </div>
+        </section>
+
+        <!-- ══ ícones ══ -->
+        <section class="secao" id="icones">
+          <h2>Ícones</h2>
+          <p class="intro">
+            Iconex, estilo Light, exportados do Figma em SVG. A cor está
+            trocada <strong>dentro do próprio ficheiro</strong>, em quatro
+            pastas — escolhe-se a pasta pela cor que o sítio pede. O
+            <code>#A39DA9</code> da paleta original não tem variante: dava
+            2,64:1 e um ícone funcional precisa de 3:1.
+          </p>
+          <div class="tira-cores" style="margin-bottom:var(--at-e4)">
+            <div class="escura">
+              <img class="at-icone-24" src="web/icones/branco/inicio.svg" alt="" />
+              <div><strong>branco</strong><br />sidebar e hero</div>
+            </div>
+            <div>
+              <img class="at-icone-24" src="web/icones/roxo/inicio.svg" alt="" />
+              <div><strong>roxo</strong> #5B3F8C<br />cartões e ênfase</div>
+            </div>
+            <div>
+              <img class="at-icone-24" src="web/icones/tinta/inicio.svg" alt="" />
+              <div><strong>tinta</strong> #292331<br />interface neutra</div>
+            </div>
+            <div>
+              <img class="at-icone-24" src="web/icones/suave/inicio.svg" alt="" />
+              <div><strong>suave</strong> #716A78<br />apoio e legendas</div>
+            </div>
+          </div>
+          <div class="grade-icones" id="grade-icones"></div>
+        </section>
+
+        <!-- ══ componentes ══ -->
+        <section class="secao" id="componentes">
+          <h2>Componentes</h2>
+          <p class="intro">As peças que os ecrãs do portal vão montar.</p>
+
+          <div class="at-hero" style="margin-bottom:var(--at-e5)">
+            <p class="at-sobretitulo">Os seus impostos · Um Portugal mais forte</p>
+            <h2>Consulte. Declare. Regularize.</h2>
+            <p>
+              Aceda a todos os serviços fiscais da Autoridade Tributária e
+              gira a sua situação tributária de forma simples e segura.
+            </p>
+            <a class="at-botao" href="#componentes">
+              Aceder aos meus serviços
+              <img class="at-icone-16" src="web/icones/roxo/seta-direita.svg" alt="" />
+            </a>
+          </div>
+
+          <div class="at-grade at-grade-3" style="margin-bottom:var(--at-e5)">
+            <a class="at-servico" href="#componentes">
+              <span class="at-servico-icone"><img class="at-icone" src="web/icones/roxo/declaracoes.svg" alt="" /></span>
+              <h3>Entregar declaração</h3>
+              <p>IRS, IRC e outras declarações fiscais.</p>
+              <img class="at-icone-16 at-seta" src="web/icones/suave/seta-direita.svg" alt="" />
+            </a>
+            <a class="at-servico" href="#componentes">
+              <span class="at-servico-icone"><img class="at-icone" src="web/icones/roxo/pagamentos.svg" alt="" /></span>
+              <h3>Efetuar pagamentos</h3>
+              <p>Pague impostos, coimas e taxas de forma rápida.</p>
+              <img class="at-icone-16 at-seta" src="web/icones/suave/seta-direita.svg" alt="" />
+            </a>
+            <a class="at-servico" href="#componentes">
+              <span class="at-servico-icone"><img class="at-icone" src="web/icones/roxo/patrimonio.svg" alt="" /></span>
+              <h3>Consultar património</h3>
+              <p>Veja os seus bens, imóveis e situações fiscais.</p>
+              <img class="at-icone-16 at-seta" src="web/icones/suave/seta-direita.svg" alt="" />
+            </a>
+          </div>
+
+          <div class="at-grade at-grade-2" style="margin-bottom:var(--at-e5)">
+            <div class="at-cartao">
+              <div class="at-cartao-cabeca"><h3>Botões</h3></div>
+              <div class="amostras">
+                <button type="button" class="at-botao">Entregar declaração</button>
+                <button type="button" class="at-botao at-botao-linha">Guardar rascunho</button>
+                <button type="button" class="at-botao at-botao-fantasma">Ver tudo</button>
+                <button type="button" class="at-botao" disabled>Indisponível</button>
+              </div>
+              <p class="at-ajuda">Altura mínima de 42px, que é o alvo de toque. Branco sobre o roxo dá 8,29:1.</p>
+            </div>
+
+            <div class="at-cartao">
+              <div class="at-cartao-cabeca"><h3>Formulário</h3></div>
+              <div class="at-campo">
+                <label for="nif">NIF do contribuinte</label>
+                <input id="nif" inputmode="numeric" placeholder="500 000 000" />
+                <p class="at-ajuda">Nove dígitos, com ou sem espaços.</p>
+              </div>
+              <div class="at-campo" style="margin-bottom:0">
+                <label for="periodo">Período</label>
+                <input id="periodo" value="2026-13" aria-invalid="true" aria-describedby="e-periodo" />
+                <p class="at-erro" id="e-periodo">Período inválido. Use o formato 2026-09.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="at-grade at-grade-painel">
+            <div class="at-cartao">
+              <div class="at-cartao-cabeca">
+                <h3>Últimas entregas</h3>
+                <button type="button" class="at-botao at-botao-fantasma">Ver todas</button>
+              </div>
+              <div class="at-rolavel">
+                <table class="at-tabela">
+                  <thead>
+                    <tr><th>Declaração</th><th>Período</th><th>Estado</th><th class="num">Valor</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>IRC · Modelo 22</td><td class="mono">2026</td>
+                      <td><span class="at-selo at-selo-ok"><span class="at-ponto"></span>Entregue</span></td>
+                      <td class="num mono">P$ 420,00</td>
+                    </tr>
+                    <tr>
+                      <td>IVA · Trimestral</td><td class="mono">2026-3T</td>
+                      <td><span class="at-selo at-selo-aviso"><span class="at-ponto"></span>Por entregar</span></td>
+                      <td class="num mono">P$ 118,40</td>
+                    </tr>
+                    <tr>
+                      <td>Retenções na fonte</td><td class="mono">2026-08</td>
+                      <td><span class="at-selo at-selo-erro"><span class="at-ponto"></span>Fora de prazo</span></td>
+                      <td class="num mono">P$ 25,00</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="at-pilha">
+              <div class="at-cartao">
+                <div class="at-cartao-cabeca"><h3>Situação fiscal</h3></div>
+                <div class="at-situacao">
+                  <span class="at-situacao-icone" style="background:var(--at-ok-veu)">
+                    <img class="at-icone-16" src="web/icones/tinta/ok.svg" alt="" style="filter:none" />
+                  </span>
+                  <div>
+                    <div class="at-situacao-titulo">Situação regular</div>
+                    <div class="at-situacao-nota">Sem dívidas à Autoridade Tributária.</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="at-cartao">
+                <div class="at-cartao-cabeca"><h3>Histórico, 12 meses</h3></div>
+                <div class="at-barras" role="img" aria-label="Entregas por mês, com o máximo em setembro">
+                  <div class="at-barra"><div class="haste" style="height:28%"></div><span class="rot">O</span></div>
+                  <div class="at-barra"><div class="haste" style="height:44%"></div><span class="rot">N</span></div>
+                  <div class="at-barra"><div class="haste" style="height:36%"></div><span class="rot">D</span></div>
+                  <div class="at-barra"><div class="haste" style="height:52%"></div><span class="rot">J</span></div>
+                  <div class="at-barra"><div class="haste" style="height:40%"></div><span class="rot">F</span></div>
+                  <div class="at-barra"><div class="haste" style="height:61%"></div><span class="rot">M</span></div>
+                  <div class="at-barra"><div class="haste" style="height:48%"></div><span class="rot">A</span></div>
+                  <div class="at-barra"><div class="haste" style="height:70%"></div><span class="rot">M</span></div>
+                  <div class="at-barra"><div class="haste" style="height:58%"></div><span class="rot">J</span></div>
+                  <div class="at-barra"><div class="haste" style="height:76%"></div><span class="rot">J</span></div>
+                  <div class="at-barra"><div class="haste" style="height:83%"></div><span class="rot">A</span></div>
+                  <div class="at-barra destaque"><div class="haste" style="height:100%"></div><span class="rot">S</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══ estado ══ -->
+        <section class="secao" id="estado">
+          <h2>Estado</h2>
+          <p class="intro">
+            Cada estado leva ícone e palavra, nunca só a cor. Quem não
+            distingue verde de vermelho tem de continuar a saber se tem
+            dívidas.
+          </p>
+          <div class="at-cartao" style="margin-bottom:var(--at-e4)">
+            <div class="amostras">
+              <span class="at-selo at-selo-ok"><span class="at-ponto"></span>Situação regular</span>
+              <span class="at-selo at-selo-info"><span class="at-ponto"></span>Em análise</span>
+              <span class="at-selo at-selo-aviso"><span class="at-ponto"></span>Prazo a terminar</span>
+              <span class="at-selo at-selo-erro"><span class="at-ponto"></span>Em dívida</span>
+              <span class="at-selo"><span class="at-ponto" style="background:var(--at-texto-suave)"></span>Sem movimento</span>
+            </div>
+          </div>
+
+          <div class="at-cartao">
+            <div class="at-cartao-cabeca"><h3>Repartição por imposto</h3></div>
+            <div class="at-barra-seg" role="img" aria-label="IRC 38 por cento, IVA 27, Retenções 21, Coimas 14">
+              <span style="width:38%; background:var(--at-s1)"></span>
+              <span style="width:27%; background:var(--at-s2)"></span>
+              <span style="width:21%; background:var(--at-s3)"></span>
+              <span style="width:14%; background:var(--at-s4)"></span>
+            </div>
+            <div class="at-legenda">
+              <span class="at-legenda-item"><span class="at-legenda-marca" style="background:var(--at-s1)"></span>IRC 38%</span>
+              <span class="at-legenda-item"><span class="at-legenda-marca" style="background:var(--at-s2)"></span>IVA 27%</span>
+              <span class="at-legenda-item"><span class="at-legenda-marca" style="background:var(--at-s3)"></span>Retenções 21%</span>
+              <span class="at-legenda-item"><span class="at-legenda-marca" style="background:var(--at-s4)"></span>Coimas 14%</span>
+            </div>
+            <p class="at-ajuda">
+              As quatro séries passam 3:1 sobre branco. As duas mais claras da
+              paleta original, com 2,35:1 e 1,35:1, não entram.
+            </p>
+          </div>
+        </section>
+
+        <!-- ══ raios ══ -->
+        <section class="secao">
+          <h2>Raios</h2>
+          <div class="at-cartao">
+            <div class="amostras">
+              <div style="width:76px;height:52px;background:var(--at-cinza);border:1px solid var(--at-linha);border-radius:6px;display:grid;place-items:center;font-size:11px">6px</div>
+              <div style="width:76px;height:52px;background:var(--at-cinza);border:1px solid var(--at-linha);border-radius:9px;display:grid;place-items:center;font-size:11px">9px</div>
+              <div style="width:76px;height:52px;background:var(--at-cinza);border:1px solid var(--at-linha);border-radius:14px;display:grid;place-items:center;font-size:11px">14px</div>
+              <div style="width:76px;height:52px;background:var(--at-cinza);border:1px solid var(--at-linha);border-radius:999px;display:grid;place-items:center;font-size:11px">999px</div>
+            </div>
+            <p class="at-ajuda">
+              Marcas a 6px, controlos a 9px, painéis a 14px, pílulas a 999px.
+              Um sistema só, seguido em todo o lado.
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // A grelha monta-se a partir da lista, para nunca ficar dessincronizada
+    // dos ficheiros que existem mesmo em web/icones/.
+    var ICONES = ['inicio','declaracoes','pagamentos','efatura','patrimonio','iuc',
+      'servicos','balcao','ajuda','definicoes','procurar','grafico','escudo','ok',
+      'aviso','calendario','seta-direita','seta-esquerda','seta-cima','seta-baixo',
+      'descarregar','filtrar','utilizador','sair','fechar','sino','relogio',
+      'carteira','mais','editar'];
+    document.getElementById('grade-icones').innerHTML = ICONES.map(function (n) {
+      return '<div class="ficha-icone">' +
+        '<img class="at-icone-24" src="web/icones/tinta/' + n + '.svg" alt="" />' +
+        '<span>' + n + '</span></div>';
+    }).join('');
+  </script>
+</body>
+</html>
