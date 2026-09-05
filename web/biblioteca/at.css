@@ -223,9 +223,54 @@ p { margin: 0; }
    Escolhe-se a pasta pela cor que o sítio pede, não por CSS.
    ─────────────────────────────────────────────────────────────────── */
 
-.at-icone { width: 20px; height: 20px; display: inline-block; vertical-align: -4px; }
+/* Um SVG dentro de <img> NÃO herda currentColor: quando o item ativo da
+   barra lateral inverte para fundo branco e texto roxo, o ícone ficava
+   branco sobre branco — invisível. A máscara resolve com um ficheiro só,
+   e serve o hover e qualquer cor futura sem gerar variantes novas.
+   (O `url()` aqui resolve a partir DESTE ficheiro, não do HTML.) */
+.at-icone {
+  display: inline-block;
+  width: 20px; height: 20px;
+  flex-shrink: 0;
+  vertical-align: -4px;
+  background-color: currentColor;
+  -webkit-mask: var(--i) center / contain no-repeat;
+          mask: var(--i) center / contain no-repeat;
+}
 .at-icone-16 { width: 16px; height: 16px; vertical-align: -3px; }
 .at-icone-24 { width: 24px; height: 24px; vertical-align: -6px; }
+
+/* a fonte da máscara é só o desenho; a cor vem do currentColor */
+.i-ajuda          { --i: url(../icones/branco/ajuda.svg); }
+.i-aviso          { --i: url(../icones/branco/aviso.svg); }
+.i-balcao         { --i: url(../icones/branco/balcao.svg); }
+.i-calendario     { --i: url(../icones/branco/calendario.svg); }
+.i-carteira       { --i: url(../icones/branco/carteira.svg); }
+.i-declaracoes    { --i: url(../icones/branco/declaracoes.svg); }
+.i-definicoes     { --i: url(../icones/branco/definicoes.svg); }
+.i-descarregar    { --i: url(../icones/branco/descarregar.svg); }
+.i-editar         { --i: url(../icones/branco/editar.svg); }
+.i-efatura        { --i: url(../icones/branco/efatura.svg); }
+.i-escudo         { --i: url(../icones/branco/escudo.svg); }
+.i-fechar         { --i: url(../icones/branco/fechar.svg); }
+.i-filtrar        { --i: url(../icones/branco/filtrar.svg); }
+.i-grafico        { --i: url(../icones/branco/grafico.svg); }
+.i-inicio         { --i: url(../icones/branco/inicio.svg); }
+.i-iuc            { --i: url(../icones/branco/iuc.svg); }
+.i-mais           { --i: url(../icones/branco/mais.svg); }
+.i-ok             { --i: url(../icones/branco/ok.svg); }
+.i-pagamentos     { --i: url(../icones/branco/pagamentos.svg); }
+.i-patrimonio     { --i: url(../icones/branco/patrimonio.svg); }
+.i-procurar       { --i: url(../icones/branco/procurar.svg); }
+.i-relogio        { --i: url(../icones/branco/relogio.svg); }
+.i-sair           { --i: url(../icones/branco/sair.svg); }
+.i-servicos       { --i: url(../icones/branco/servicos.svg); }
+.i-seta-baixo     { --i: url(../icones/branco/seta-baixo.svg); }
+.i-seta-cima      { --i: url(../icones/branco/seta-cima.svg); }
+.i-seta-direita   { --i: url(../icones/branco/seta-direita.svg); }
+.i-seta-esquerda  { --i: url(../icones/branco/seta-esquerda.svg); }
+.i-sino           { --i: url(../icones/branco/sino.svg); }
+.i-utilizador     { --i: url(../icones/branco/utilizador.svg); }
 
 /* ───────────────────────────────────────────────────────────────────
    4. BOTÕES
@@ -639,7 +684,7 @@ p { margin: 0; }
   display: grid; place-items: center;
   background: rgba(255, 255, 255, .18);
 }
-.at-hero .at-situacao-icone img { width: 24px; height: 24px; }
+.at-hero .at-situacao-icone .at-icone { width: 24px; height: 24px; vertical-align: 0; }
 .at-hero .at-situacao-titulo {
   font-family: "Bricolage Grotesque", sans-serif;
   font-weight: 700; font-size: clamp(19px, 2.2vw, 24px); line-height: 1.15;

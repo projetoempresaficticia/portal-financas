@@ -140,7 +140,7 @@ function montarLateral(alvo) {
     <nav aria-label="Navegação principal">
       ${AT_PAGINAS.map((p) => `
         <a href="${p.href}" ${p.href === atual ? 'aria-current="page"' : ''}>
-          <img class="at-icone" src="web/icones/branco/${p.icone}.svg" alt="" />
+          <span class="at-icone i-${p.icone}" aria-hidden="true"></span>
           ${esc(p.nome)}
         </a>`).join('')}
     </nav>

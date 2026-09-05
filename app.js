@@ -25,7 +25,7 @@ function desenharSituacao(porPagar, atrasados) {
 
   if (atrasados.length) {
     hero.dataset.estado = 'erro';
-    icone.innerHTML = '<img class="at-icone" src="web/icones/branco/aviso.svg" alt="" />';
+    icone.innerHTML = '<span class="at-icone i-aviso" aria-hidden="true"></span>';
     titulo.textContent = 'Em dívida, com prazo ultrapassado';
     nota.textContent =
       `${atrasados.length} pagamento(s) à Autoridade Tributária passaram do prazo, `
@@ -33,14 +33,14 @@ function desenharSituacao(porPagar, atrasados) {
       + 'fiscal aparece assim a quem a consultar.';
   } else if (porPagar.length) {
     hero.dataset.estado = 'aviso';
-    icone.innerHTML = '<img class="at-icone" src="web/icones/branco/relogio.svg" alt="" />';
+    icone.innerHTML = '<span class="at-icone i-relogio" aria-hidden="true"></span>';
     titulo.textContent = 'Com pagamentos em aberto';
     nota.textContent =
       `Tem ${formatarP$(devido)} por pagar à Autoridade Tributária, ainda dentro do `
       + 'prazo. Assim que pagar, a entrega recebe protocolo automaticamente.';
   } else {
     hero.dataset.estado = 'ok';
-    icone.innerHTML = '<img class="at-icone" src="web/icones/branco/ok.svg" alt="" />';
+    icone.innerHTML = '<span class="at-icone i-ok" aria-hidden="true"></span>';
     titulo.textContent = 'Situação regularizada';
     nota.textContent = 'Não há nada em falta perante a Autoridade Tributária.';
   }
