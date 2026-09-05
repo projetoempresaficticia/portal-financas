@@ -115,6 +115,24 @@ async function minhaEmpresa() {
   return empresa ? { pessoa, empresa } : null;
 }
 
+// A versão do site, tirada do <meta> desta página.
+//
+// Os links internos levam-na no endereço. Sem isto, cada clique na barra
+// lateral vai buscar a entrada de cache antiga daquela página — o GitHub
+// Pages guarda o HTML dez minutos — e carrega o JS e o CSS velhos que essa
+// página nomeia. O atualizar.js ainda recupera, mas só depois de a página
+// velha ter corrido: dá o erro à vista e repete-se a cada aba.
+function versaoDoSite() {
+  const m = document.querySelector('meta[name="at-versao"]');
+  return (m && m.content) ? m.content : '';
+}
+
+function comVersao(href) {
+  const v = versaoDoSite();
+  if (!v || /^https?:/.test(href)) return href;
+  return href + (href.includes('?') ? '&' : '?') + 'v=' + encodeURIComponent(v);
+}
+
 // A barra lateral é igual em todas as páginas; montá-la aqui evita seis
 // cópias que se desalinham à primeira alteração.
 const AT_PAGINAS = [
@@ -139,7 +157,7 @@ function montarLateral(alvo) {
     </div>
     <nav aria-label="Navegação principal">
       ${AT_PAGINAS.map((p) => `
-        <a href="${p.href}" ${p.href === atual ? 'aria-current="page"' : ''}>
+        <a href="${comVersao(p.href)}" ${p.href === atual ? 'aria-current="page"' : ''}>
           <span class="at-icone i-${p.icone}" aria-hidden="true"></span>
           ${esc(p.nome)}
         </a>`).join('')}

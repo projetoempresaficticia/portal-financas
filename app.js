@@ -109,7 +109,7 @@ function desenharPeriodo(proposta, jaEntregue, jaPaga) {
         <div class="at-linha-detalhe">${esc(s.nota)}</div>
       </div>
       ${s.accao
-        ? `<a class="at-botao at-botao-linha" href="${s.accao.href}">${esc(s.accao.texto)}</a>`
+        ? `<a class="at-botao at-botao-linha" href="${comVersao(s.accao.href)}">${esc(s.accao.texto)}</a>`
         : ''}
     </li>`).join('');
 }
