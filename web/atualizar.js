@@ -23,7 +23,7 @@
 //     vale a página velha do que página nenhuma.
 
 (function () {
-  const meta = document.querySelector('meta[name="pc-versao"]');
+  const meta = document.querySelector('meta[name="at-versao"]');
   if (!meta || !meta.content) return;
   const minha = meta.content;
 

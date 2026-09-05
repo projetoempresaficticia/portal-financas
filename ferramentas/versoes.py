@@ -6,7 +6,7 @@ Faz duas coisas, e as duas são necessárias:
 1. Reescreve os `?v=` dos ficheiros locais com o sha1 do próprio
    ficheiro. Sem isto o browser serve uma cópia velha do JS ou do CSS.
 
-2. Escreve `versao.json` e o `<meta name="pc-versao">` de cada página,
+2. Escreve `versao.json` e o `<meta name="at-versao">` de cada página,
    com um resumo de TODOS os ficheiros versionados. Isto existe porque o
    ponto 1 sozinho não chega: o GitHub Pages manda
    `Cache-Control: max-age=600` no HTML e não deixa mudar isso, por isso
@@ -30,13 +30,13 @@ RAIZ = pathlib.Path(__file__).resolve().parent.parent
 
 # só ficheiros locais: os CDN e as fontes não levam ?v=
 PADRAO = re.compile(r'(?P<attr>src|href)="(?P<ficheiro>(?!https?:)[^"?]+)\?v=(?P<versao>[^"]*)"')
-META = re.compile(r'<meta name="pc-versao" content="(?P<versao>[^"]*)"\s*/?>')
+META = re.compile(r'<meta name="at-versao" content="(?P<versao>[^"]*)"\s*/?>')
 # Para o cálculo do resumo, apagar o meta TEM de apagar também o espaço
 # em branco que ficaria antes dele. Sem isso, uma página que já tem o
 # meta reduz-se a um texto ligeiramente diferente da que ainda não tem
 # (sobra a mudança de linha e a indentação), o resumo muda de passagem
 # para passagem e o script nunca estabiliza.
-META_RESUMO = re.compile(r'\s*<meta name="pc-versao"[^>]*>')
+META_RESUMO = re.compile(r'\s*<meta name="at-versao"[^>]*>')
 
 
 def resumo(caminho: pathlib.Path) -> str:
@@ -93,13 +93,13 @@ def main() -> int:
             if atual.group('versao') != versao_site:
                 problemas += 1
                 texto = META.sub(
-                    f'<meta name="pc-versao" content="{versao_site}" />', texto, count=1)
+                    f'<meta name="at-versao" content="{versao_site}" />', texto, count=1)
         else:
             problemas += 1
             print(f'  sem meta de versão: {html.name}')
             texto = texto.replace(
                 '<meta name="viewport"',
-                f'<meta name="pc-versao" content="{versao_site}" />\n  <meta name="viewport"',
+                f'<meta name="at-versao" content="{versao_site}" />\n  <meta name="viewport"',
                 1)
         textos[html] = texto
 

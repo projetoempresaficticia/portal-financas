@@ -1,0 +1,151 @@
+// Portal das Finanças — utilitários da biblioteca deste app.
+// O cliente Supabase (`sb`) e o `api()` vêm do comum.js da pp-base.
+
+// Dinheiro é bigint em cêntimos de P$; formatar só no ecrã.
+function formatarP$(centimos) {
+  return 'P$ ' + (Number(centimos || 0) / 100).toLocaleString('pt-PT', {
+    minimumFractionDigits: 2, maximumFractionDigits: 2,
+  });
+}
+
+function formatarData(iso) {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleDateString('pt-PT', {
+    day: '2-digit', month: '2-digit', year: 'numeric',
+  });
+}
+
+function formatarDataHora(iso) {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleString('pt-PT', {
+    day: '2-digit', month: '2-digit', year: 'numeric',
+    hour: '2-digit', minute: '2-digit',
+  });
+}
+
+function diasAte(iso) {
+  if (!iso) return null;
+  return Math.ceil((new Date(iso) - new Date()) / 86400000);
+}
+
+// A competência é texto "AAAA-MM", nunca uma data — é a regra da pp-base
+// para o que só se parece com data.
+function competenciaAtual() {
+  const h = new Date();
+  return h.getFullYear() + '-' + String(h.getMonth() + 1).padStart(2, '0');
+}
+
+const MESES = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+  'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+
+function competenciaPorExtenso(comp) {
+  if (!comp) return '—';
+  const [ano, mes] = comp.split('-');
+  return MESES[Number(mes) - 1] + ' de ' + ano;
+}
+
+const NOME_ORGAO = {
+  AT: 'Autoridade Tributária',
+  cartorio: 'Cartório Notarial',
+  seg_social: 'Segurança Social',
+  diario: 'Diário da República',
+};
+
+// Ícone e palavra em todos, nunca só a cor: quem não distingue verde de
+// vermelho tem de continuar a saber em que estado está.
+function selo(estado) {
+  const mapa = {
+    aprovado:          ['at-selo-ok',    'Entregue'],
+    pago:              ['at-selo-ok',    'Pago'],
+    rejeitado:         ['at-selo-erro',  'Rejeitado'],
+    atrasado:          ['at-selo-erro',  'Prazo ultrapassado'],
+    aguarda_pagamento: ['at-selo-aviso', 'Aguarda pagamento'],
+    por_pagar:         ['at-selo-aviso', 'Por pagar'],
+    em_pagamento:      ['at-selo-info',  'A aguardar aprovação'],
+    em_analise:        ['at-selo-info',  'Em análise'],
+  };
+  const [classe, texto] = mapa[estado] || ['at-selo-info', estado];
+  return `<span class="at-selo ${classe}">${esc(texto)}</span>`;
+}
+
+function mostrarMsg(el, texto, tipo) {
+  if (!el) return;
+  el.textContent = texto || '';
+  el.className = 'at-msg' + (tipo ? ' at-msg-' + tipo : '');
+}
+
+// Escapar texto que vem da base antes de o pôr em innerHTML.
+function esc(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function ligarFormularioLogin(aoEntrar) {
+  const form = document.getElementById('form-login');
+  if (!form) return;
+  form.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const msg = document.getElementById('msg-login');
+    mostrarMsg(msg, 'A entrar…');
+    const { error } = await sb.auth.signInWithPassword({
+      email: document.getElementById('email').value,
+      password: document.getElementById('senha').value,
+    });
+    if (error) {
+      mostrarMsg(msg, 'Login inválido.', 'erro');
+      return;
+    }
+    mostrarMsg(msg, '');
+    await aoEntrar();
+  });
+}
+
+// A empresa que a pessoa logada representa.
+async function minhaEmpresa() {
+  const { data } = await sb.auth.getSession();
+  if (!data.session) return null;
+  const { data: pessoa } = await sb
+    .from('pessoas').select('cedula, nome, empresa_id')
+    .eq('id', data.session.user.id).single();
+  if (!pessoa || !pessoa.empresa_id) return null;
+  const { data: empresa } = await sb
+    .from('empresas').select('cedula, nome, setor, regiao, estado')
+    .eq('id', pessoa.empresa_id).single();
+  return empresa ? { pessoa, empresa } : null;
+}
+
+// A barra lateral é igual em todas as páginas; montá-la aqui evita seis
+// cópias que se desalinham à primeira alteração.
+const AT_PAGINAS = [
+  { href: 'index.html',      icone: 'inicio',      nome: 'Início' },
+  { href: 'efatura.html',    icone: 'efatura',     nome: 'e-Fatura' },
+  { href: 'declaracoes.html', icone: 'declaracoes', nome: 'Declarações' },
+  { href: 'pagamentos.html', icone: 'pagamentos',  nome: 'Pagamentos' },
+  { href: 'consultar.html',  icone: 'escudo',      nome: 'Consultar' },
+];
+
+function paginaAtual() {
+  const f = window.location.pathname.split('/').pop();
+  return f === '' ? 'index.html' : f;
+}
+
+function montarLateral(alvo) {
+  const atual = paginaAtual();
+  alvo.innerHTML = `
+    <div class="at-marca">
+      <img src="web/marca/at-marca.webp" alt="" width="36" height="36" />
+      <span class="at-marca-nome">Portal das Finanças<small>Prepara Portugal</small></span>
+    </div>
+    <nav aria-label="Navegação principal">
+      ${AT_PAGINAS.map((p) => `
+        <a href="${p.href}" ${p.href === atual ? 'aria-current="page"' : ''}>
+          <img class="at-icone" src="web/icones/branco/${p.icone}.svg" alt="" />
+          ${esc(p.nome)}
+        </a>`).join('')}
+    </nav>
+    <a class="at-empurra" href="biblioteca.html">
+      <img class="at-icone" src="web/icones/branco/definicoes.svg" alt="" />
+      Biblioteca
+    </a>`;
+}
